@@ -25,7 +25,7 @@ app.use(
     secret: process.env.SECRET,
     algorithms: ["HS256"],
     getToken: req => req.cookies.token
-  }).unless({ path: ["/autenticar", "/logar", "/deslogar"] })
+  }).unless({ path: ["/autenticar", "/logar", "/deslogar", "/"] })
 );
 
 app.get('/autenticar', async function(req, res){
@@ -37,7 +37,7 @@ app.get('/', async function(req, res){
 })
 
 app.post('/logar', (req, res) => {
-  
+  res.send("Você está logado!")
 })
 
 app.post('/deslogar', function(req, res) {
