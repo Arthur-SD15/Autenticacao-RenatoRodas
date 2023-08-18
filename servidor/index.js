@@ -40,22 +40,30 @@ app.get('/usuarios/cadastrar', async function(req, res){
   res.render('cadastrar')
  })
 
-app.post('/logar', (req, res) => {
-  const { usuario, senha } = req.body
-  if(usuario == 'Arthur' && senha == '12345'){
-    const id = 1
+ app.post('/usuarios/cadastrar', async function(req, res){
+  if(req.body.pass == req.body.confirmpass){
+    return res.json({
+      usuario: req.body.user,
+      status:"cadastrado"
+    })
+    } 
+ })
 
+ app.post('/logar', (req, res) => {
+  if(req.body.user == "Jaco" && req.body.pass == "123"){
+    const id = 1
+    
     const token = jwt.sign({ id }, process.env.SECRET, {
       expiresIn: 300
     })
 
     res.cookie('token', token, {httpOnly: true});
     return res.json({
-      usuario: req.body.usuario, 
+      usuario: req.body.user, 
       token: token 
     })
   }
-  res.status(500).json({mensagem: "Usuario ou senha invalidos"})
+  res.status(500).json({mensagem: "Login Inválido"})
 })
 
 app.post('/deslogar', function(req, res) {

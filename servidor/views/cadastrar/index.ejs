@@ -4,35 +4,26 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/servidor/public/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <title>Cadastro</title>
 </head>
 <body>
   <div class="container">
     <h1>Cadastro:</h1>
-    <form onsubmit="verificar()" action="cadastrar" method="post">
+    <form method="post" action="/usuarios/cadastrar">
       <div class="input-field">
         <input required type="text" placeholder="Usuário" name="user">
       </div>
       <div class="input-field">
-        <input required type="password" placeholder="Senha" id="pass">
+        <input required type="password" placeholder="Senha" name="pass" id="pass">
       </div>
       <div class="input-field">
-        <input required type="password" placeholder="Confirme sua Senha" id="confirpass">
+        <input required type="password" placeholder="Confirme sua Senha" name="confirmpass" id="confirpass">
       </div>
       <div class="input-field">
         <input type="submit" name="Cadastrar" value="Cadastrar"/>
       </div>
     </form>
   </div>
-  <script>
-    const verificar = () => {
-        const senhaUm = document.getElementById("pass").value;
-        const senhaDois = document.getElementById("confirpass").value;
-        if(senhaUm != senhaDois){ 
-            alert("A confirmação da senha não coincide"); 
-        }
-    }
-  </script>
 </body>
 </html>
