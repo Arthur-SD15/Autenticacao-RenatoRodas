@@ -46,7 +46,9 @@ app.get('/usuarios/cadastrar', async function(req, res){
       usuario: req.body.user,
       status:"cadastrado"
     })
-    } 
+    } else{
+      return res.json("Não possivel cadastrar")
+    }
  })
 
  app.post('/logar', (req, res) => {
