@@ -41,7 +41,6 @@ app.get('/usuarios/cadastrar', async function(req, res){
  })
 
  app.post('/usuarios/cadastrar', async function(req, res){
-
   if(req.body.senha == req.body.confirmpass){
     await usuario.create(req.body);
     res.redirect("/usuarios/listar")
@@ -51,8 +50,14 @@ app.get('/usuarios/cadastrar', async function(req, res){
  })
 
  app.get('/usuarios/listar', async function(req, res){
-  res.render('listar')
- })
+  try {
+    const list = await usuario.findAll();
+    res.render('listar', { list });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao listar usuários");
+  }
+});
 
  app.post('/logar', (req, res) => {
   if(req.body.user == "Jaco" && req.body.pass == "123"){
