@@ -41,14 +41,17 @@ app.get('/usuarios/cadastrar', async function(req, res){
  })
 
  app.post('/usuarios/cadastrar', async function(req, res){
-  if(req.body.pass == req.body.confirmpass){
-    return res.json({
-      usuario: req.body.user,
-      status:"cadastrado"
-    })
+
+  if(req.body.senha == req.body.confirmpass){
+    await usuario.create(req.body);
+    res.redirect("/usuarios/listar")
     } else{
-      return res.json("Não possivel cadastrar")
+      res.json("Não possivel cadastrar")
     }
+ })
+
+ app.get('/usuarios/listar', async function(req, res){
+  res.render('listar')
  })
 
  app.post('/logar', (req, res) => {
