@@ -8,12 +8,12 @@
   <title>Lista de Usuários</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Lista de Usuários Cadastrados</h1>
+  <div class="container-list">
+    <h1>Lista de Usuários Cadastrados:</h1>
     <ul>
       <% for (const user of list) { %>
         <li>
-          <p><strong>Nome:</strong> <%= user.usuario %></p>
+          <p><%= user.usuario %></p>
         </li>
       <% } %>
     </ul>

@@ -53,3 +53,19 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background-color: #12b300;
 }
+
+ul{
+  list-style: none;
+}
+
+li{
+  margin: 5px;
+}
+
+.container-list {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 12px 11px 10px rgba(255, 255, 255, 0.1);
+  width: 800px;
+}
