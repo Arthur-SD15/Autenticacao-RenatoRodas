@@ -1,3 +1,5 @@
+const crypto = require('./crypto');
+
 // JWT
 require("dotenv-safe").config();
 const jwt = require('jsonwebtoken');
@@ -62,7 +64,7 @@ app.get('/usuarios/cadastrar', async function(req, res){
  app.post('/logar', (req, res) => {
   if(req.body.user == "Jaco" && req.body.pass == "123"){
     const id = 1
-    
+      
     const token = jwt.sign({ id }, process.env.SECRET, {
       expiresIn: 300
     })
