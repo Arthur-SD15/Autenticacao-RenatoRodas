@@ -54,58 +54,49 @@ app.get("/usuarios/listar", async function (req, res) {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
 app.post("/usuarios/cadastrar", async function (req, res) {
-  if (req.body.senha == req.body.confirmpass) {
-    //A senha esta criptografada no banco de dados
-    let senhaCrypto = crypto.encrypt(req.body.senha);
-    const newUser = await usuario.create({
-      usuario: req.body.usuario,
-      senha: senhaCrypto,
-    });
-    const id = newUser.id;
-    const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: 300 });
-    res.cookie('token', token, { httpOnly: true })
-    res.redirect('/autenticar');
-  } else {
-    res.json("Não possivel cadastrar");
+  try {
+    if (req.body.senha == req.body.confirmpass) {
+      // Criptografando a senha no banco de dados
+      let senhaCrypto = crypto.encrypt(req.body.senha);
+      await usuario.create({
+        usuario: req.body.usuario,
+        senha: senhaCrypto,
+      });
+      res.redirect("/autenticar");
+    } else {
+      res.status(500).send("As senhas devem ser idênticas");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao cadastrar usuário");
   }
 });
 
-app.post("/logar", (req, res) => {
-  if (req.body.user == "Jaco" && req.body.pass == "123") {
-    const id = 1;
-
-    const token = jwt.sign({ id }, process.env.SECRET, {
-      expiresIn: 300,
-    });
-
-    res.cookie("token", token, { httpOnly: true });
-    return res.json({
-      usuario: req.body.user,
-      token: token,
-    });
+app.post("/logar", async function (req, res) {
+  try {
+    const user = await usuario.findOne({ where: { usuario: req.body.user } });
+    //Descriptografando a senha do banco dados
+    let userSenha = crypto.decrypt(user.senha);
+    if (req.body.pass === userSenha) {
+      const id = user.id;
+      const token = jwt.sign({ id }, process.env.SECRET, {
+        expiresIn: 300,
+      });
+      res.cookie("token", token, { httpOnly: true });
+      return res.redirect("/usuarios/listar");
+    } else {
+      res.status(500).send("Senha inválida");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao autenticar usuário");
   }
-  res.status(500).json({ mensagem: "Login Inválido" });
 });
-
-
-
-
-
 
 app.post("/deslogar", function (req, res) {
   res.cookie("token", null, { httpOnly: true });
-  res.redirect('/autenticar')
+  res.redirect("/autenticar");
 });
 
 app.listen(3000, function () {
