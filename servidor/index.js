@@ -56,16 +56,21 @@ app.get("/usuarios/listar", async function (req, res) {
 
 app.post("/usuarios/cadastrar", async function (req, res) {
   try {
-    if (req.body.senha == req.body.confirmpass) {
-      // Criptografando a senha no banco de dados
-      let senhaCrypto = crypto.encrypt(req.body.senha);
-      await usuario.create({
-        usuario: req.body.usuario,
-        senha: senhaCrypto,
-      });
-      res.redirect("/autenticar");
+    let existeUser = await usuario.findOne({ where: { usuario: req.body.usuario } });
+    if (existeUser) {
+      res.status(500).send("O usuário já existe");
     } else {
-      res.status(500).send("As senhas devem ser idênticas");
+      if (req.body.senha == req.body.confirmpass) {
+        // Criptografando a senha no banco de dados
+        let senhaCrypto = crypto.encrypt(req.body.senha);
+        await usuario.create({
+          usuario: req.body.usuario,
+          senha: senhaCrypto,
+        });
+        res.redirect("/autenticar");
+      } else {
+        res.status(500).send("As senhas devem ser idênticas");
+      }
     }
   } catch (error) {
     console.error(error);
