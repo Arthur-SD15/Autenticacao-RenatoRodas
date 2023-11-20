@@ -4,7 +4,16 @@ const crypto = require("./crypto");
 require("dotenv-safe").config();
 const jwt = require("jsonwebtoken");
 var { expressjwt: expressJWT } = require("express-jwt");
+
+//analogia -> o cors abre um porta no servidor para o cliente e libera para que o cliente possa acessar certas funcionanlidades
 const cors = require("cors");
+
+const corsOpcoes = {
+  origin: "Http://localhost:3000",
+  methods: "GET,PUT,POST,DELETE",
+  allowedHeaders: "Content-Type, Authorization",
+  credentials: true,
+};
 
 var cookieParser = require("cookie-parser");
 
@@ -15,7 +24,7 @@ const app = express();
 
 app.set("view engine", "ejs");
 
-app.use(cors());
+app.use(cors(corsOpcoes));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,7 +56,7 @@ app.get("/usuarios/cadastrar", async function (req, res) {
 app.get("/usuarios/listar", async function (req, res) {
   try {
     const list = await usuario.findAll();
-    res.render("listar", { list });
+    res.json(list);
   } catch (error) {
     console.error(error);
     res.status(500).send("Erro ao listar usuários");
@@ -56,7 +65,9 @@ app.get("/usuarios/listar", async function (req, res) {
 
 app.post("/usuarios/cadastrar", async function (req, res) {
   try {
-    let existeUser = await usuario.findOne({ where: { usuario: req.body.usuario } });
+    let existeUser = await usuario.findOne({
+      where: { usuario: req.body.usuario },
+    });
     if (existeUser) {
       res.status(500).send("O usuário já existe");
     } else {
@@ -88,7 +99,10 @@ app.post("/logar", async function (req, res) {
       const token = jwt.sign({ id }, process.env.SECRET, {
         expiresIn: 300,
       });
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, { httpOnly: true }).json({
+        nome: user.usuario,
+        token: token
+      });
       return res.redirect("/usuarios/listar");
     } else {
       res.status(500).send("Senha inválida");
