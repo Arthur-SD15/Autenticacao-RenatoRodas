@@ -103,9 +103,7 @@ app.post("/logar", async function (req, res) {
         nome: user.usuario,
         token: token
       });
-      return res.redirect("/usuarios/listar");
-    } else {
-      res.status(500).send("Senha inválida");
+      //return res.json(user)
     }
   } catch (error) {
     console.error(error);
@@ -118,6 +116,6 @@ app.post("/deslogar", function (req, res) {
   res.redirect("/autenticar");
 });
 
-app.listen(3000, function () {
+app.listen(4000, function () {
   console.log("App de Exemplo escutando na porta 3000!");
 });

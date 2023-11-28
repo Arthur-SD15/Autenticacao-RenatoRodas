@@ -1,39 +1,6 @@
 "use server";
 
-const url = "https://aula-17-10-rho-seven.vercel.app";
-
-const usuarios = [
-  {
-    nome: "Arthur Dantas",
-    email: "arthur@gmail.com",
-    senha: "2252",
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  },
-  {
-    nome: "Renato Borges Lazarini",
-    email: "renato@gmail.com",
-    senha: "2252",
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  },
-  {
-    nome: "Rafael Venancio Cruz",
-    email: "rafael@gmail.com",
-    senha: "2252",
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  },
-  {
-    nome: "Marcelino Vitor",
-    email: "marcelino@gmail.com",
-    senha: "2252",
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  },
-  {
-    nome: "Claudio Zarate",
-    email: "claudio@gmail.com",
-    senha: "2252",
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-  }
-];
+const url = "https://aula-17-10.vercel.app/";
 
 const getUserAuthenticated = async (user) => {
     const responseOfApi = await fetch(url + "/user/authenticated",
@@ -49,8 +16,24 @@ const getUserAuthenticated = async (user) => {
     return userAuth
 };
 
-const getUsers = () => {
-  return usuarios
+const postUser = async (user) => {
+  try{
+    const responseOfApi = await fetch(url + "/user", {
+      method: 'POST',
+      headers: {'Content-Type': 'Aplication/json' },
+      body: JSON.stringify(user)
+    })
+    const userSave = await responseOfApi.json();
+    return userSave;
+  } catch {
+    return null
+  }
+}
+
+const getUsers = async () => {
+  const response = await fetch(url + "/users", {next: {revalidate: 15}})
+  const users = await response.json()
+  return users
 };
 
-export { getUsers, getUserAuthenticated };
+export { getUsers, getUserAuthenticated, postUser };
