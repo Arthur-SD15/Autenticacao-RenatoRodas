@@ -14,8 +14,7 @@ export default function Login() {
 
   const handlerLogin = async (e) => {
     e.preventDefault();
-    console.log(user.senha)
-    console.log(user.usuario)
+
     try {
       const userAuth = await handlerAcessUser(user);
       if (userAuth.token === undefined) { 

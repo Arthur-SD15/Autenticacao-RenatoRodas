@@ -9,7 +9,7 @@ var { expressjwt: expressJWT } = require("express-jwt");
 const cors = require("cors");
 
 const corsOpcoes = {
-  origin: "Http://localhost:3000",
+  origin: "http://localhost:3000",
   methods: "GET,PUT,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   credentials: true,
@@ -91,7 +91,7 @@ app.post("/usuarios/cadastrar", async function (req, res) {
 
 app.post("/logar", async function (req, res) {
   try {
-    const user = await usuario.findOne({ where: { usuario: req.body.nome } });
+    const user = await usuario.findOne({ where: { usuario: req.body.usuario } });
     //Descriptografando a senha do banco dados
     let userSenha = crypto.decrypt(user.senha);
     if (req.body.senha === userSenha) {

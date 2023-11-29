@@ -1,4 +1,5 @@
 "use client";
+import { postUser } from "@/app/functions/handlerAcessAPI";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,9 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
+    usuario: "",
+    senha: "",
     confirmpass: "",
   });
   const { push, refresh } = useRouter();
@@ -16,10 +16,11 @@ export default function Register() {
   const RegisterUser = async (e) => {
     e.preventDefault();
     try {
-        if (user.password !== user.confirmpass) {
+        if (user.senha !== user.confirmpass) {
             toast.error("As senhas não coincidem!");
             return;
         } else {
+            await postUser(user)
             toast.success("Cadastro efetuado!");
             setTimeout(() => {
                 push("/pages/dashboard");
@@ -47,22 +48,7 @@ export default function Register() {
             type="text"
             placeholder="Nome Completo"
             onChange={(e) => {
-              setUser({ ...user, name: e.target.value });
-            }}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-md font-semibold mb-2" htmlFor="email">
-            E-mail
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="email"
-            placeholder="E-mail"
-            onChange={(e) => {
-              setUser({ ...user, email: e.target.value });
+              setUser({ ...user, usuario: e.target.value });
             }}
             required
           />
@@ -80,7 +66,7 @@ export default function Register() {
             type="password"
             placeholder="Senha"
             onChange={(e) => {
-              setUser({ ...user, password: e.target.value });
+              setUser({ ...user, senha: e.target.value });
             }}
             required
           />
