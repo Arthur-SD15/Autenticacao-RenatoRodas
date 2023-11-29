@@ -32,6 +32,19 @@ export default function Register() {
     }
   };
 
+  const back = async (e) => {
+    e.preventDefault();
+    try {
+      toast.success("Direcionando!");
+      setTimeout(() => {
+        push("/pages/dashboard");
+      }, 1000);
+    } catch (error) {
+      toast.error("Erro!");
+      refresh();
+    }
+  };
+
   return (
     <div className="w-full max-w-lg mx-auto mt-10 mb-16">
       <form
@@ -96,8 +109,15 @@ export default function Register() {
           >
             Registrar
           </button>
+          <button
+            className="bg-custom-yellow text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+            onClick={back}
+          >
+            Voltar
+          </button>
         </div>
       </form>
+      
       <ToastContainer />
     </div>
   );

@@ -24,6 +24,22 @@ export default function Capa() {
     }
   };
 
+  const cadastrar = async (e) => {
+    try {
+      if (!Cookies.get("token")) {
+        toast.error("Se autentique primeiro!");
+      } else {
+        toast.success("Direcionando!");
+        setTimeout(() => {
+          push("/pages/register");
+        }, 1000);
+      }
+    } catch (error) {
+      toast.error("Erro!");
+      refresh();
+    }
+  };
+
   return (
     <nav className="bg-white dark:bg-custom-blue border-b-12 border-custom-yellow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -34,12 +50,20 @@ export default function Capa() {
             alt="Renato Rodas Logo"
           />
         </a>
-        <button
-          className="bg-custom-yellow text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-          onClick={removerToken}
-        >
-          Deslogar
-        </button>
+        <div className="flex space-x-4">
+          <button
+            className="bg-custom-yellow text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+            onClick={cadastrar}
+          >
+            Cadastrar
+          </button>
+          <button
+            className="bg-custom-yellow text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+            onClick={removerToken}
+          >
+            Deslogar
+          </button>
+        </div>
       </div>
       <ToastContainer />
     </nav>
