@@ -14,17 +14,18 @@ export default function Login() {
 
   const handlerLogin = async (e) => {
     e.preventDefault();
-
-    try {
-      const userAuth = await handlerAcessUser(user);
-      if (userAuth.token === undefined) { 
-        toast.error("E-mail ou senha inválidos!");
-      } else {
-        toast.success("Login efetuado!");
-        setTimeout(() => {
-          push("/pages/dashboard");
-        }, 1500);
+  
+    try { 
+      const userAuth = await handlerAcessUser(user); // -> Envia os dados do user para o handlerAcess e aguarda a resposta
+      //Verifica se possui error
+      if (userAuth.error) {
+        toast.error(userAuth.error); 
+        return;
       }
+      toast.success("Login efetuado!");
+      setTimeout(() => {
+        push("/pages/dashboard");
+      }, 1500);
     } catch {
       toast.error("Error!");
       refresh();
@@ -44,7 +45,6 @@ export default function Login() {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
-            
             placeholder="Nome"
             onChange={(e) => {
               setUser({ ...user, usuario: e.target.value });

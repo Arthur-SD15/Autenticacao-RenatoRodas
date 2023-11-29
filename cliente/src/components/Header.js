@@ -8,6 +8,7 @@ export default function Capa() {
   const { push, refresh } = useRouter();
 
   const removerToken = async (e) => {
+    e.preventDefault();
     try {
       if (!Cookies.get("token")) {
         toast.error("Se autentique primeiro!");
@@ -16,15 +17,16 @@ export default function Capa() {
         setTimeout(() => {
           Cookies.remove("token");
           push("/");
-        }, 2000);
+        }, 1500);
       }
-    } catch (error) {
-      toast.error("Erro!");
+    } catch {
+      toast.error("Error!");
       refresh();
     }
   };
 
   const cadastrar = async (e) => {
+    e.preventDefault();
     try {
       if (!Cookies.get("token")) {
         toast.error("Se autentique primeiro!");
@@ -32,10 +34,10 @@ export default function Capa() {
         toast.success("Direcionando!");
         setTimeout(() => {
           push("/pages/register");
-        }, 1000);
+        }, 1500);
       }
-    } catch (error) {
-      toast.error("Erro!");
+    } catch {
+      toast.error("Error!");
       refresh();
     }
   };

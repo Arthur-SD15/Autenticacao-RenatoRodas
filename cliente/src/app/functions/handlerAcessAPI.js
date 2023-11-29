@@ -5,19 +5,29 @@ import { cookies } from "next/headers";
 const url = "http://localhost:4000";
 
 const getUserAuthenticated = async (user) => {
-  const responseOfApi = await fetch(url + "/logar", {
-    cache: "no-cache",
-    method: "POST",
-    headers: { "Content-Type": "Application/json" },
-    body: JSON.stringify(user),
-  });
+  try {
+    const responseOfApi = await fetch(url + "/logar", {
+      cache: "no-cache",
+      method: "POST",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify(user),
+    });
 
-  let userAuth = await responseOfApi.json();
-  return userAuth;
+    if (!responseOfApi.ok) {
+      const errorText = await responseOfApi.text();
+      throw new Error(errorText);
+    }
+    //Converte resposta para json
+    const userAuth = await responseOfApi.json();
+    return userAuth;
+  } catch (error) {
+    return { error: "Error!" };
+  }
 };
 
 const postUser = async (user) => {
   const token = cookies().get("token")?.value;
+
   try {
     const responseOfApi = await fetch(url + "/usuarios/cadastrar", {
       method: "POST",
@@ -27,10 +37,21 @@ const postUser = async (user) => {
       },
       body: JSON.stringify(user),
     });
+
+    //Trata erros
+    if (!responseOfApi.ok) {
+      let errorText = await responseOfApi.text();
+      try {
+        const errorJson = JSON.parse(errorText);
+        return { error: errorJson.message };
+      } catch (error) {
+        return { error: errorText };
+      }
+    }
     const userSave = await responseOfApi.json();
     return userSave;
-  } catch {
-    return null;
+  } catch (error) {
+    return { error: error.message };
   }
 };
 

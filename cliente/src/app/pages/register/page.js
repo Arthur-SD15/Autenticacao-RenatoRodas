@@ -16,16 +16,23 @@ export default function Register() {
   const RegisterUser = async (e) => {
     e.preventDefault();
     try {
-        if (user.senha !== user.confirmpass) {
-            toast.error("As senhas não coincidem!");
-            return;
+      if (user.senha !== user.confirmpass) {
+        toast.error("As senhas não coincidem!");
+        return;
+      } else {
+        const result = await postUser(user); // -> Envia os dados do user para o postUser e aguarda a resposta
+        //caso possuir erro estara em result.erro, armazenado no tratamento de erros
+        //bug resolvido(gambiarra):
+        if (result.error == "Unexpected token < in JSON at position 0") {
+          toast.success("Cadastro efetuado!");
+          setTimeout(() => {
+            push("/pages/dashboard");
+          }, 1500);
         } else {
-            await postUser(user)
-            toast.success("Cadastro efetuado!");
-            setTimeout(() => {
-                push("/pages/dashboard");
-              }, 1500);
+          toast.error(result.error);
+          return;
         }
+      }
     } catch {
       toast.error("Error!");
       refresh();
@@ -38,9 +45,9 @@ export default function Register() {
       toast.success("Direcionando!");
       setTimeout(() => {
         push("/pages/dashboard");
-      }, 1000);
-    } catch (error) {
-      toast.error("Erro!");
+      }, 1500);
+    } catch {
+      toast.error("Error!");
       refresh();
     }
   };
@@ -117,7 +124,6 @@ export default function Register() {
           </button>
         </div>
       </form>
-      
       <ToastContainer />
     </div>
   );

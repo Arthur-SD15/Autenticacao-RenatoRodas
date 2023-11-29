@@ -59,7 +59,7 @@ app.get("/usuarios/listar", async function (req, res) {
     res.json(list);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Erro ao listar usuários");
+    res.status(500).send("Error!");
   }
 });
 
@@ -69,30 +69,26 @@ app.post("/usuarios/cadastrar", async function (req, res) {
       where: { usuario: req.body.usuario },
     });
     if (existeUser) {
-      res.status(500).send("O usuário já existe");
+      res.status(500).send("O usuário já existe"); //retorna um erro
     } else {
-      if (req.body.senha == req.body.confirmpass) {
-        // Criptografando a senha no banco de dados
-        let senhaCrypto = crypto.encrypt(req.body.senha);
-        await usuario.create({
-          usuario: req.body.usuario,
-          senha: senhaCrypto,
-        });
-        res.redirect("/autenticar");
-      } else {
-        res.status(500).send("As senhas devem ser idênticas");
-      }
+      let senhaCrypto = crypto.encrypt(req.body.senha);
+      await usuario.create({
+        usuario: req.body.usuario,
+        senha: senhaCrypto,
+      });
+      res.redirect("/autenticar");
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Erro ao cadastrar usuário");
+    res.status(500).send("Error!");
   }
 });
 
 app.post("/logar", async function (req, res) {
   try {
     const user = await usuario.findOne({ where: { usuario: req.body.usuario } });
-    //Descriptografando a senha do banco dados
+    if (!user) {
+      return res.status(500).json({ error: "Usuário não encontrado" }); //retorna um erro
+    }  
     let userSenha = crypto.decrypt(user.senha);
     if (req.body.senha === userSenha) {
       const id = user.id;
@@ -103,11 +99,11 @@ app.post("/logar", async function (req, res) {
         usuario: user.usuario,
         token: token
       });
-      //return res.json(user)
+    } else {
+      res.status(500).json({ error: "Senha incorreta" }); //retorna um erro
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Erro ao autenticar usuário");
+    res.status(500).send("Error!");
   }
 });
 
