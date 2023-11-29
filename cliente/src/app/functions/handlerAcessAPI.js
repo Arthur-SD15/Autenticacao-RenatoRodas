@@ -1,9 +1,9 @@
 "use server";
 
-const url = "https://aula-17-10.vercel.app/";
+const url = "http://localhost:4000";
 
 const getUserAuthenticated = async (user) => {
-    const responseOfApi = await fetch(url + "/user/authenticated",
+    const responseOfApi = await fetch(url + "/logar",
       {
       cache:"no-cache",
         method: "POST",
@@ -31,9 +31,9 @@ const postUser = async (user) => {
 }
 
 const getUsers = async () => {
-  const response = await fetch(url + "/users", {next: {revalidate: 15}})
+  const response = await fetch(url + "/usuarios/listar", {next: {revalidate: 15}})
   const users = await response.json()
-  return users
+  console.log(users)
 };
 
 export { getUsers, getUserAuthenticated, postUser };

@@ -37,7 +37,7 @@ app.use(
     algorithms: ["HS256"],
     getToken: (req) => req.cookies.token,
   }).unless({
-    path: ["/autenticar", "/logar", "/deslogar", "/usuarios/cadastrar"],
+    path: ["/autenticar", "/logar", "/deslogar"],
   })
 );
 
@@ -91,16 +91,16 @@ app.post("/usuarios/cadastrar", async function (req, res) {
 
 app.post("/logar", async function (req, res) {
   try {
-    const user = await usuario.findOne({ where: { usuario: req.body.user } });
+    const user = await usuario.findOne({ where: { usuario: req.body.nome } });
     //Descriptografando a senha do banco dados
     let userSenha = crypto.decrypt(user.senha);
-    if (req.body.pass === userSenha) {
+    if (req.body.senha === userSenha) {
       const id = user.id;
       const token = jwt.sign({ id }, process.env.SECRET, {
         expiresIn: 300,
       });
       res.cookie("token", token, { httpOnly: true }).json({
-        nome: user.usuario,
+        usuario: user.usuario,
         token: token
       });
       //return res.json(user)
@@ -117,5 +117,5 @@ app.post("/deslogar", function (req, res) {
 });
 
 app.listen(4000, function () {
-  console.log("App de Exemplo escutando na porta 3000!");
+  console.log("App de Exemplo escutando na porta 4000!");
 });

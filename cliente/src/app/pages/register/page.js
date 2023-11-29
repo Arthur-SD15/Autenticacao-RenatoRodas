@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const [user, setUser] = useState({
-    nome: "",
+    name: "",
     email: "",
     password: "",
     confirmpass: "",
@@ -47,7 +47,7 @@ export default function Register() {
             type="text"
             placeholder="Nome Completo"
             onChange={(e) => {
-              setUser({ ...user, nome: e.target.value });
+              setUser({ ...user, name: e.target.value });
             }}
             required
           />

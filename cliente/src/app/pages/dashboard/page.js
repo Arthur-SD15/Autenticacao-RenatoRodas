@@ -12,7 +12,7 @@ export default async function Dashboard() {
                     {lista.map((user) => (
                         <div
                             className="bg-white p-4 border rounded-lg shadow-md">
-                            <h2 className="text-xl font-semibold">{user.nome}</h2>
+                            <h2 className="text-xl font-semibold">{user.name}</h2>
                             <p className="text-gray-600">{user.email}</p>
                         </div>
                     ))}

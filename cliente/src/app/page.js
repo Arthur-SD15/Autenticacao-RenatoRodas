@@ -7,16 +7,18 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [user, setUser] = useState({
-    email: "",
-    password: "",
+    usuario: "",
+    senha: "",
   });
   const { push, refresh } = useRouter();
 
   const handlerLogin = async (e) => {
     e.preventDefault();
+    console.log(user.senha)
+    console.log(user.usuario)
     try {
       const userAuth = await handlerAcessUser(user);
-      if (userAuth.token === undefined) {
+      if (userAuth.token === undefined) { 
         toast.error("E-mail ou senha inválidos!");
       } else {
         toast.success("Login efetuado!");
@@ -37,16 +39,16 @@ export default function Login() {
         className="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 text-gray-800"
       >
         <div className="mb-6">
-          <label className="block text-md font-semibold mb-2" htmlFor="email">
-            E-mail
+          <label className="block text-md font-semibold mb-2" htmlFor="text">
+            Nome
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             
-            placeholder="E-mail"
+            placeholder="Nome"
             onChange={(e) => {
-              setUser({ ...user, email: e.target.value });
+              setUser({ ...user, usuario: e.target.value });
             }}
             required
           />
@@ -64,7 +66,7 @@ export default function Login() {
             type="password"
             placeholder="Senha"
             onChange={(e) => {
-              setUser({ ...user, password: e.target.value });
+              setUser({ ...user, senha: e.target.value });
             }}
             required
           />

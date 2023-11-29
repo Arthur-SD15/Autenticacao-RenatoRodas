@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Alter() {
   const [user, setUser] = useState({
-    nome: "",
+    name: "",
     email: "",
     password: "",
     confirmpass: "",
@@ -45,8 +45,8 @@ export default function Alter() {
             id="nome"
             type="text"
             placeholder="Nome Completo"
-            value={user.nome}
-            onChange={(e) => setUser({ ...user, nome: e.target.value })}
+            value={user.name}
+            onChange={(e) => setUser({ ...user, name: e.target.value })}
             required
           />
         </div>

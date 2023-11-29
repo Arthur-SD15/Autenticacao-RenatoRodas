@@ -16,4 +16,3 @@ const handlerAcessUser = async (user) => {
     return userAuth;
 }
 export default handlerAcessUser;
-
