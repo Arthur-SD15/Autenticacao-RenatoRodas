@@ -11,9 +11,9 @@ export default function Capa() {
     e.preventDefault();
     try {
       if (!Cookies.get("token")) {
-        toast.error("Se autentique primeiro!");
+        toast.error("Se autentique primeiro.");
       } else {
-        toast.success("Deslogando!");
+        toast.success("Deslogando.");
         setTimeout(() => {
           Cookies.remove("token");
           push("/");
@@ -29,9 +29,9 @@ export default function Capa() {
     e.preventDefault();
     try {
       if (!Cookies.get("token")) {
-        toast.error("Se autentique primeiro!");
+        toast.error("Se autentique primeiro.");
       } else {
-        toast.success("Direcionando!");
+        toast.success("Direcionando.");
         setTimeout(() => {
           push("/pages/register");
         }, 1500);

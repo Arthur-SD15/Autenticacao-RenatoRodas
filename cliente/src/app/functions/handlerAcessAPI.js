@@ -21,7 +21,7 @@ const getUserAuthenticated = async (user) => {
     const userAuth = await responseOfApi.json();
     return userAuth;
   } catch (error) {
-    return { error: "Error!" };
+    return { error: error.message };
   }
 };
 

@@ -19,10 +19,11 @@ export default function Login() {
       const userAuth = await handlerAcessUser(user); // -> Envia os dados do user para o handlerAcess e aguarda a resposta
       //Verifica se possui error
       if (userAuth.error) {
-        toast.error(userAuth.error); 
+        let mensagem = JSON.parse(userAuth.error)
+        toast.error(mensagem.error); 
         return;
       }
-      toast.success("Login efetuado!");
+      toast.success("Login efetuado.");
       setTimeout(() => {
         push("/pages/dashboard");
       }, 1500);

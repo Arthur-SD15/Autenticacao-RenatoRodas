@@ -65,11 +65,9 @@ app.get("/usuarios/listar", async function (req, res) {
 
 app.post("/usuarios/cadastrar", async function (req, res) {
   try {
-    let existeUser = await usuario.findOne({
-      where: { usuario: req.body.usuario },
-    });
+    let existeUser = await usuario.findOne({where: { usuario: req.body.usuario },});
     if (existeUser) {
-      res.status(500).send("O usuário já existe"); //retorna um erro
+      res.status(500).send("O usuário já existe."); //retorna um erro
     } else {
       let senhaCrypto = crypto.encrypt(req.body.senha);
       await usuario.create({
@@ -87,7 +85,7 @@ app.post("/logar", async function (req, res) {
   try {
     const user = await usuario.findOne({ where: { usuario: req.body.usuario } });
     if (!user) {
-      return res.status(500).json({ error: "Usuário não encontrado" }); //retorna um erro
+      return res.status(500).json({ error: "Usuário não encontrado." }); //retorna um erro
     }  
     let userSenha = crypto.decrypt(user.senha);
     if (req.body.senha === userSenha) {
@@ -100,7 +98,7 @@ app.post("/logar", async function (req, res) {
         token: token
       });
     } else {
-      res.status(500).json({ error: "Senha incorreta" }); //retorna um erro
+      res.status(500).json({ error: "Senha incorreta." }); //retorna um erro
     }
   } catch (error) {
     res.status(500).send("Error!");
