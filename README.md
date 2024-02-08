@@ -16,7 +16,7 @@
 
 ## 💻 Projeto
 
-Projeto desenvolvido ao longo do semestre, trata-se de uma continuidade do [Projeto Autenticação](https://github.com/Arthur-SD15/Projeto-Autenticacao). Portanto, tudo que foi atribuído nesse projeto inicial também está presente neste. Este projeto abrange tanto a parte do cliente quanto do servidor, configurando-se como um sistema de autenticação de usuários.
+Este projeto abrange tanto a parte do cliente quanto do servidor, configurando-se como um sistema de autenticação de usuários.
 
 Para realizar a autenticação, o usuário deve ter um cadastro prévio, e essas informações devem estar armazenadas no banco de dados. A autenticação ocorre mediante duas condições: o usuário precisa estar previamente cadastrado e a senha inserida deve estar correta. Após a autenticação bem-sucedida, o servidor gera um token. Os campos para acessar o sistema são o nome de usuário e senha, mas é possível alterá-los de nome para e-mail sem grandes dificuldades. Uma vez autenticado, é possível registrar um novo usuário que ainda não esteja cadastrado no banco de dados, onde o servidor realizará uma busca para verificar se já está ou não cadastrado.
 
