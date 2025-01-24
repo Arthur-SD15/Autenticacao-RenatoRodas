@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "sequelize db:migrate"
+  "start": "node index.js", 
+  "dev": "nodemon index.js",
+  "build": "sequelize db:migrate"
   },
   "keywords": [],
   "author": "",

@@ -1,36 +1,35 @@
+// index.js
 const crypto = require("./crypto");
-
-// JWT
-require("dotenv-safe").config();
+const dotenv = require('dotenv-safe');
 const jwt = require("jsonwebtoken");
-var { expressjwt: expressJWT } = require("express-jwt");
-
-//analogia -> o cors abre um porta no servidor para o cliente e libera para que o cliente possa acessar certas funcionanlidades
+const { expressjwt: expressJWT } = require("express-jwt");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const express = require("express");
+const { usuario } = require("./models");
 
+// Carregar variáveis de ambiente
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// Configuração do CORS
 const corsOpcoes = {
-  origin: "http://localhost:3000",
+  origin: process.env.CLIENT_URL || "http://localhost:3000", // Use CLIENT_URL em produção
   methods: "GET,PUT,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   credentials: true,
 };
 
-var cookieParser = require("cookie-parser");
-
-const express = require("express");
-const { usuario } = require("./models");
-
-const app = express();
-
 app.set("view engine", "ejs");
-
 app.use(cors(corsOpcoes));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
 app.use(cookieParser());
+
+// Middleware de autenticação
 app.use(
   expressJWT({
     secret: process.env.SECRET,
@@ -41,75 +40,72 @@ app.use(
   })
 );
 
-app.get("/autenticar", async function (req, res) {
-  res.render("autenticar");
-});
+// Rotas
+app.get("/autenticar", (req, res) => res.render("autenticar"));
 
-app.get("/", async function (req, res) {
-  res.render("home");
-});
+app.get("/", (req, res) => res.render("home"));
 
-app.get("/usuarios/cadastrar", async function (req, res) {
-  res.render("cadastrar");
-});
+app.get("/usuarios/cadastrar", (req, res) => res.render("cadastrar"));
 
-app.get("/usuarios/listar", async function (req, res) {
+app.get("/usuarios/listar", async (req, res) => {
   try {
     const list = await usuario.findAll();
     res.json(list);
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao listar usuários:", error);
     res.status(500).send("Error!");
   }
 });
 
-app.post("/usuarios/cadastrar", async function (req, res) {
+app.post("/usuarios/cadastrar", async (req, res) => {
   try {
-    let existeUser = await usuario.findOne({where: { usuario: req.body.usuario },});
+    const existeUser = await usuario.findOne({ where: { usuario: req.body.usuario } });
     if (existeUser) {
-      res.status(500).send("O usuário já existe."); //retorna um erro
-    } else {
-      let senhaCrypto = crypto.encrypt(req.body.senha);
-      await usuario.create({
-        usuario: req.body.usuario,
-        senha: senhaCrypto,
-      });
-      res.redirect("/autenticar");
+      return res.status(400).send("O usuário já existe."); // Retorna um erro 400
     }
+    
+    const senhaCrypto = crypto.encrypt(req.body.senha);
+    await usuario.create({
+      usuario: req.body.usuario,
+      senha: senhaCrypto,
+    });
+    res.redirect("/autenticar");
   } catch (error) {
+    console.error("Erro ao cadastrar usuário:", error);
     res.status(500).send("Error!");
   }
 });
 
-app.post("/logar", async function (req, res) {
+app.post("/logar", async (req, res) => {
   try {
     const user = await usuario.findOne({ where: { usuario: req.body.usuario } });
     if (!user) {
-      return res.status(500).json({ error: "Usuário não encontrado." }); //retorna um erro
-    }  
-    let userSenha = crypto.decrypt(user.senha);
+      return res.status(404).json({ error: "Usuário não encontrado." }); // Retorna um erro 404
+    }
+    
+    const userSenha = crypto.decrypt(user.senha);
     if (req.body.senha === userSenha) {
       const id = user.id;
-      const token = jwt.sign({ id }, process.env.SECRET, {
-        expiresIn: 300,
-      });
+      const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: 300 });
       res.cookie("token", token, { httpOnly: true }).json({
         usuario: user.usuario,
-        token: token
+        token,
       });
     } else {
-      res.status(500).json({ error: "Senha incorreta." }); //retorna um erro
+      res.status(401).json({ error: "Senha incorreta." }); // Retorna um erro 401
     }
   } catch (error) {
+    console.error("Erro ao logar:", error);
     res.status(500).send("Error!");
   }
 });
 
-app.post("/deslogar", function (req, res) {
+app.post("/deslogar", (req, res) => {
   res.cookie("token", null, { httpOnly: true });
   res.redirect("/autenticar");
 });
 
-app.listen(4000, function () {
-  console.log("App de Exemplo escutando na porta 4000!");
+// Iniciar o servidor
+app.listen(PORT, () => {
+  console.log(`App escutando na porta ${PORT}!`);
 });

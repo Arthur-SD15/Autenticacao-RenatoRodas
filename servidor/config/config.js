@@ -7,5 +7,8 @@ module.exports = {
     url: process.env.DATABASE_URL,
     dialect: 'postgres',
   },
-  // outras configurações (test, production) se necessário
+  production: {
+    url: process.env.DATABASE_URL, // Ou outra variável de ambiente específica
+    dialect: 'postgres',
+  },
 };
