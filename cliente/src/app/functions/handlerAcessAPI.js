@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const url = "http://localhost:4000";
+const url = "https://autenticacao-renatorodas.onrender.com";
 
 const getUserAuthenticated = async (user) => {
   try {
