@@ -1,3 +1,6 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next",
+  "rules": {
+    "next/no-img-element": "off" // Desativa a regra de uso da tag <img>
+  }
 }

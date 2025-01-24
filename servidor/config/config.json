@@ -1,23 +1,14 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "2252",
-    "database": "database_development",
-    "host": "localhost",
+    "url": "postgresql://root:No3zhW3kUkClum6q2GKdKrS3hsBCYY5m@dpg-cu9umfbqf0us73c5arjg-a.oregon-postgres.render.com/authentication_rr",
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "url": "postgresql://root:No3zhW3kUkClum6q2GKdKrS3hsBCYY5m@dpg-cu9umfbqf0us73c5arjg-a.oregon-postgres.render.com/authentication_rr",
+    "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "url": "postgresql://root:No3zhW3kUkClum6q2GKdKrS3hsBCYY5m@dpg-cu9umfbqf0us73c5arjg-a.oregon-postgres.render.com/authentication_rr",
+    "dialect": "postgres"
   }
 }

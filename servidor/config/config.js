@@ -1,30 +1,11 @@
-require('dotenv/config');
+const dotenv = require('dotenv-safe');
+
+dotenv.config();
 
 module.exports = {
   development: {
-    username: process.env.USER_NAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    port: process.env.PORT,
-    dialect: process.env.DIALECT
+    url: process.env.DATABASE_URL,
+    dialect: 'postgres',
   },
-
-  test: {
-    username: process.env.USER_NAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    port: process.env.PORT,
-    dialect: process.env.DIALECT
-  },
-  
-  production: {
-    username: process.env.USER_NAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    host: process.env.HOST,
-    port: process.env.PORT,
-    dialect: process.env.DIALECT
-  }
-}
+  // outras configurações (test, production) se necessário
+};
