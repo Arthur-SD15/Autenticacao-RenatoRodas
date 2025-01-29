@@ -24,6 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+const port = process.env.PORT || 3001;
+
 // Middleware de autenticação
 app.use(
   expressJWT({
@@ -94,6 +96,6 @@ app.post("/deslogar", (req, res) => {
 });
 
 // Iniciar o servidor
-app.listen(3001, () => {
-  console.log(`App escutando na porta ${3001}!`);
+app.listen(port, () => {
+  console.log(`App escutando na porta ${port}!`);
 });
