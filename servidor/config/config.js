@@ -8,7 +8,6 @@ module.exports = {
     host: process.env.HOST,
     port: process.env.PORT,
     dialect: process.env.DIALECT,
-    use_env_variable: process.env.DATABASE_URL,
     use_env_variable: 'DATABASE_URL',
     dialectOptions: {
       ssl: {
@@ -24,7 +23,6 @@ module.exports = {
     host: process.env.HOST,
     port: process.env.PORT,
     dialect: process.env.DIALECT,
-    use_env_variable: process.env.DATABASE_URL,
     use_env_variable: 'DATABASE_URL',
     dialectOptions: {
       ssl: {
@@ -40,7 +38,6 @@ module.exports = {
     host: process.env.HOST,
     port: process.env.PORT,
     dialect: process.env.DIALECT,
-    use_env_variable: process.env.DATABASE_URL,
     use_env_variable: 'DATABASE_URL',
     dialectOptions: {
       ssl: {
