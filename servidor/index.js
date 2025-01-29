@@ -1,6 +1,6 @@
 // index.js
 const crypto = require("./crypto");
-require('dotenv').config()
+require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const { expressjwt: expressJWT } = require("express-jwt");
 const cors = require("cors");
@@ -15,7 +15,6 @@ const corsOpcoes = {
   origin: process.env.CLIENT_URL || "http://localhost:3000",
   methods: "GET,PUT,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
-  credentials: true,
 };
 
 app.set("view engine", "ejs");
@@ -32,16 +31,9 @@ app.use(
     algorithms: ["HS256"],
     getToken: (req) => req.cookies.token,
   }).unless({
-    path: ["/autenticar", "/logar", "/deslogar"],
+    path: ["/logar", "/deslogar", "/", /^\/$/,],
   })
 );
-
-// Rotas
-app.get("/autenticar", (req, res) => res.render("autenticar"));
-
-app.get("/", (req, res) => res.render("home"));
-
-app.get("/usuarios/cadastrar", (req, res) => res.render("cadastrar"));
 
 app.get("/usuarios/listar", async (req, res) => {
   try {
@@ -83,7 +75,7 @@ app.post("/logar", async (req, res) => {
     if (req.body.senha === userSenha) {
       const id = user.id;
       const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: 300 });
-      res.cookie("token", token, { httpOnly: true, secure: true, path: '/' }).json({
+      res.cookie("token", token, { httpOnly: true, secure: false, path: '/' }).json({
         usuario: user.usuario,
         token,
       });
