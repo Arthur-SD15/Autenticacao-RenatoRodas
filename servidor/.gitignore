@@ -1,3 +1,8 @@
 node_modules
 .env
 .vercel
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

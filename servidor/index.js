@@ -1,15 +1,12 @@
 // index.js
 const crypto = require("./crypto");
-const dotenv = require('dotenv');
+require('dotenv').config()
 const jwt = require("jsonwebtoken");
 const { expressjwt: expressJWT } = require("express-jwt");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const { usuario } = require("./models");
-
-// Carregar variáveis de ambiente
-dotenv.config();
 
 const app = express();
 
