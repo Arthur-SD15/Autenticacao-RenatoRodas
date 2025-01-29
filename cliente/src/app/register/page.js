@@ -17,24 +17,24 @@ export default function Register() {
     e.preventDefault();
     try {
       if (user.senha !== user.confirmpass) {
-        toast.error("As senhas não coincidem.");
+        toast?.error("As senhas não coincidem.");
         return;
       } else {
         const result = await postUser(user); // -> Envia os dados do user para o postUser e aguarda a resposta
         //caso possuir erro estara em result.erro, armazenado no tratamento de erros
         //bug resolvido(gambiarra):
         if (result.error == "Unexpected token < in JSON at position 0") {
-          toast.success("Cadastro efetuado.");
+          toast?.success("Cadastro efetuado.");
           setTimeout(() => {
-            push("/pages/dashboard");
+            push("/dashboard");
           }, 1500);
         } else {
-          toast.error(result.error);
+          toast?.error(result.error);
           return;
         }
       }
     } catch {
-      toast.error("Error!");
+      toast?.error("Error!");
       refresh();
     }
   };
@@ -42,12 +42,12 @@ export default function Register() {
   const back = async (e) => {
     e.preventDefault();
     try {
-      toast.success("Direcionando.");
+      toast?.success("Direcionando.");
       setTimeout(() => {
-        push("/pages/dashboard");
+        push("/dashboard");
       }, 1500);
     } catch {
-      toast.error("Error!");
+      toast?.error("Error!");
       refresh();
     }
   };

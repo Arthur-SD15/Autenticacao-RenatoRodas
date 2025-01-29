@@ -12,11 +12,10 @@ const { usuario } = require("./models");
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 // Configuração do CORS
 const corsOpcoes = {
-  origin: process.env.CLIENT_URL || "http://localhost:3000", // Use CLIENT_URL em produção
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
   methods: "GET,PUT,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   credentials: true,
@@ -87,7 +86,7 @@ app.post("/logar", async (req, res) => {
     if (req.body.senha === userSenha) {
       const id = user.id;
       const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: 300 });
-      res.cookie("token", token, { httpOnly: true }).json({
+      res.cookie("token", token, { httpOnly: true, secure: true, path: '/' }).json({
         usuario: user.usuario,
         token,
       });
@@ -106,6 +105,6 @@ app.post("/deslogar", (req, res) => {
 });
 
 // Iniciar o servidor
-app.listen(PORT, () => {
-  console.log(`App escutando na porta ${PORT}!`);
+app.listen(3001, () => {
+  console.log(`App escutando na porta ${3001}!`);
 });

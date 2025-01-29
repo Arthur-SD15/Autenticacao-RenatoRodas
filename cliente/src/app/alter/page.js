@@ -17,15 +17,15 @@ export default function Alter() {
     e.preventDefault();
     try {
       if (user.password !== user.confirmpass) {
-        toast.error("As senhas não coincidem!");
+        toast?.error("As senhas não coincidem!");
         return;
       }
-      toast.success("Usuário atualizado com sucesso!");
+      toast?.success("Usuário atualizado com sucesso!");
       setTimeout(() => {
-        push("/pages/dashboard"); 
+        push("/dashboard"); 
       }, 1500);
     } catch {
-        toast.error("Error!");
+        toast?.error("Error!");
         refresh();
     }
   };

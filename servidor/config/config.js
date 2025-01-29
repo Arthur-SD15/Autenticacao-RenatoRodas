@@ -1,14 +1,52 @@
-const dotenv = require('dotenv-safe');
-
-dotenv.config();
+require('dotenv').config(); // Carregar variáveis de ambiente
 
 module.exports = {
   development: {
-    url: process.env.DATABASE_URL,
-    dialect: 'postgres',
+    username: process.env.USER_NAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
+    port: process.env.PORT,
+    dialect: process.env.DIALECT,
+    use_env_variable: process.env.DATABASE_URL,
+    use_env_variable: 'DATABASE_URL',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
+  },
+  test: {
+    username: process.env.USER_NAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
+    port: process.env.PORT,
+    dialect: process.env.DIALECT,
+    use_env_variable: process.env.DATABASE_URL,
+    use_env_variable: 'DATABASE_URL',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   },
   production: {
-    url: process.env.DATABASE_URL, // Ou outra variável de ambiente específica
-    dialect: 'postgres',
-  },
+    username: process.env.USER_NAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
+    port: process.env.PORT,
+    dialect: process.env.DIALECT,
+    use_env_variable: process.env.DATABASE_URL,
+    use_env_variable: 'DATABASE_URL',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
+  }
 };

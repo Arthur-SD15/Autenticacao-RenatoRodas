@@ -11,16 +11,16 @@ export default function Capa() {
     e.preventDefault();
     try {
       if (!Cookies.get("token")) {
-        toast.error("Se autentique primeiro.");
+        toast?.error("Se autentique primeiro.");
       } else {
-        toast.success("Deslogando.");
+        toast?.success("Deslogando.");
         setTimeout(() => {
           Cookies.remove("token");
           push("/");
         }, 1500);
       }
     } catch {
-      toast.error("Error!");
+      toast?.error("Error!");
       refresh();
     }
   };
@@ -29,11 +29,11 @@ export default function Capa() {
     e.preventDefault();
     try {
       if (!Cookies.get("token")) {
-        toast.error("Se autentique primeiro.");
+        toast?.error("Se autentique primeiro.");
       } else {
-        toast.success("Direcionando.");
+        toast?.success("Direcionando.");
         setTimeout(() => {
-          push("/pages/register");
+          push("/register");
         }, 1500);
       }
     } catch {

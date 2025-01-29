@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const url = "https://autenticacao-renatorodas.onrender.com";
+const url = "http://localhost:3001";
 
 const getUserAuthenticated = async (user) => {
   try {
@@ -17,7 +17,6 @@ const getUserAuthenticated = async (user) => {
       const errorText = await responseOfApi.text();
       throw new Error(errorText);
     }
-    //Converte resposta para json
     const userAuth = await responseOfApi.json();
     return userAuth;
   } catch (error) {
@@ -26,7 +25,7 @@ const getUserAuthenticated = async (user) => {
 };
 
 const postUser = async (user) => {
-  const token = cookies().get("token")?.value;
+  const token = (await cookies()).get("token")?.value;
 
   try {
     const responseOfApi = await fetch(url + "/usuarios/cadastrar", {
@@ -38,7 +37,6 @@ const postUser = async (user) => {
       body: JSON.stringify(user),
     });
 
-    //Trata erros
     if (!responseOfApi.ok) {
       let errorText = await responseOfApi.text();
       try {
@@ -56,7 +54,7 @@ const postUser = async (user) => {
 };
 
 const getUsers = async (user) => {
-  const token = cookies().get("token")?.value;
+  const token = (await cookies()).get("token")?.value;
 
   try {
     const responseOfApi = await fetch(url + "/usuarios/listar", {
@@ -68,6 +66,7 @@ const getUsers = async (user) => {
       body: JSON.stringify(user),
     });
     const users = await responseOfApi.json();
+    console.log(users);
     return users;
   } catch {
     return null;

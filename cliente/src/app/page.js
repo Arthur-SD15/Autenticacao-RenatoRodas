@@ -20,15 +20,15 @@ export default function Login() {
       //Verifica se possui error
       if (userAuth.error) {
         let mensagem = JSON.parse(userAuth.error)
-        toast.error(mensagem.error); 
+        toast?.error(mensagem.error); 
         return;
       }
-      toast.success("Login efetuado.");
+      toast?.success("Login efetuado.");
       setTimeout(() => {
-        push("/pages/dashboard");
+        push("/dashboard");
       }, 1500);
     } catch {
-      toast.error("Error!");
+      toast?.error("Error!");
       refresh();
     }
   };
