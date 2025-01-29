@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const url = "http://localhost:3001";
+const url = process.env.NEXT_PUBLIC_API_URL;
 
 const getUserAuthenticated = async (user) => {
   try {
