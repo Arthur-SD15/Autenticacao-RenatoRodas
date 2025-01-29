@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build": "sequelize db:migrate"
+    "build": "npm install; npm start"
   },
   "keywords": [],
   "author": "",
