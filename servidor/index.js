@@ -1,6 +1,6 @@
 // index.js
 const crypto = require("./crypto");
-const dotenv = require('dotenv-safe');
+const dotenv = require('dotenv');
 const jwt = require("jsonwebtoken");
 const { expressjwt: expressJWT } = require("express-jwt");
 const cors = require("cors");

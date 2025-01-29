@@ -1,4 +1,4 @@
-require('dotenv-safe').config(); // Carregar variáveis de ambiente
+require('dotenv').config(); // Carregar variáveis de ambiente
 
 module.exports = {
   development: {
